@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 public class PessoaController {
 
     private final PessoaService pessoaService;
-    private final PessoaMapper mapper = PessoaMapper.INSTANCE;
 
     public PessoaController(PessoaService pessoaService) {
         this.pessoaService = pessoaService;
@@ -24,22 +23,20 @@ public class PessoaController {
 
     @GetMapping
     public ResponseEntity<List<PessoaDTO>> listarTodos() {
-        List<PessoaDTO> pessoas = pessoaService.encontrarTodos()
-                .stream().map(mapper::toDTO)
-                .collect(Collectors.toList());
+        List<PessoaDTO> pessoas = pessoaService.encontrarTodos();
         return new ResponseEntity<>(pessoas, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PessoaDTO> encontrarPorId(@PathVariable(value = "id") Integer pessoaId) {
-        PessoaDTO pessoa = mapper.toDTO(pessoaService.encontrarPorId(pessoaId));
+        PessoaDTO pessoa = pessoaService.encontrarPorId(pessoaId);
         //TODO checar id errado
         return new ResponseEntity<>(pessoa, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<String> salvar(@RequestBody @Valid PessoaDTO pessoaDTO) {
-        pessoaService.salvar(mapper.toDomain(pessoaDTO));
+        pessoaService.salvar(pessoaDTO);
         return new ResponseEntity<>("Pessoa cadastrada com sucesso", HttpStatus.CREATED);
     }
 

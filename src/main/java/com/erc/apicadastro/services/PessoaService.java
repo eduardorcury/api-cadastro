@@ -1,12 +1,15 @@
 package com.erc.apicadastro.services;
 
 import com.erc.apicadastro.domain.Pessoa;
+import com.erc.apicadastro.dto.PessoaDTO;
+import com.erc.apicadastro.mapper.PessoaMapper;
 import com.erc.apicadastro.repositories.ContatoRepository;
 import com.erc.apicadastro.repositories.PessoaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PessoaService {
@@ -14,36 +17,45 @@ public class PessoaService {
     private final PessoaRepository pessoaRepository;
     private final ContatoRepository contatoRepository;
 
+    private final PessoaMapper mapper = PessoaMapper.INSTANCE;
+
     public PessoaService(PessoaRepository pessoaRepository, ContatoRepository contatoRepository) {
         this.pessoaRepository = pessoaRepository;
         this.contatoRepository = contatoRepository;
     }
 
-    public Pessoa encontrarPorId(Integer pessoaId) {
+    public PessoaDTO encontrarPorId(Integer pessoaId) {
         Optional<Pessoa> pessoaOptional = pessoaRepository.findById(pessoaId);
-        return pessoaOptional.orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+        if (pessoaOptional.isPresent()) {
+            return mapper.toDTO(pessoaOptional.get());
+        } else {
+            throw new RuntimeException("Cliente não encontrado");
+        }
     }
 
-    public List<Pessoa> encontrarTodos() {
-        return pessoaRepository.findAll();
+    public List<PessoaDTO> encontrarTodos() {
+        List<PessoaDTO> pessoas = pessoaRepository.findAll()
+                .stream().map(mapper::toDTO)
+                .collect(Collectors.toList());
+        return pessoas;
     }
 
-    public Pessoa salvar(Pessoa pessoa) {
-        Pessoa pessoaSalva = pessoaRepository.save(pessoa);
-        contatoRepository.saveAll(pessoa.getContatos());
-        return pessoaSalva;
+    public PessoaDTO salvar(PessoaDTO pessoa) {
+        Pessoa pessoaSalva = pessoaRepository.save(mapper.toDomain(pessoa));
+        contatoRepository.saveAll(pessoaSalva.getContatos());
+        return mapper.toDTO(pessoaSalva);
     }
 
-    public Pessoa atualizar(Pessoa pessoaAtualizada) {
+    public PessoaDTO atualizar(Integer pessoaId, PessoaDTO pessoaAtualizada) {
 
-        Pessoa pessoa = encontrarPorId(pessoaAtualizada.getId());
-
-        pessoa.setNome(pessoaAtualizada.getNome());
-        pessoa.setCpf(pessoaAtualizada.getCpf());
-        pessoa.setNascimento(pessoaAtualizada.getNascimento());
-        pessoa.setContatos(pessoaAtualizada.getContatos());
-        // TODO salvar contatos
-        return pessoaRepository.save(pessoa);
+        Optional<Pessoa> pessoaOptional = pessoaRepository.findById(pessoaId);
+        if (pessoaOptional.isPresent()) {
+            Pessoa pessoa = mapper.toDomain(pessoaAtualizada);
+            pessoa.setId(pessoaId);
+            return mapper.toDTO(pessoaRepository.save(pessoa));
+        } else {
+            throw new RuntimeException("Cliente não encontrado");
+        }
     }
 
     public void deletar(Integer id) {
