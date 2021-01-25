@@ -19,6 +19,11 @@ public class ContatoDTO {
     @Email(message = "Endereço de e-mail inválido")
     private String email;
 
-    private Pessoa pessoa;
-
+    public ContatoDTO(@NotBlank(message = "Nome não pode estar em branco") String nome,
+                      @NotBlank(message = "Telefone não pode estar em branco") @Size(min = 4, max = 20, message = "Número de telefone inválido") String telefone,
+                      @NotBlank(message = "E-mail não pode estar em branco") @Email(message = "Endereço de e-mail inválido") String email) {
+        this.nome = nome;
+        this.telefone = telefone;
+        this.email = email;
+    }
 }

@@ -22,7 +22,7 @@ public class Pessoa {
     @Temporal(TemporalType.DATE)
     private Date nascimento;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
     private List<Contato> contatos = new ArrayList<>();
 
     public Pessoa() {
@@ -36,4 +36,27 @@ public class Pessoa {
         this.contatos = contatos;
     }
 
+    public List<Contato> getContatos() {
+        return contatos;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public void setNascimento(Date nascimento) {
+        this.nascimento = nascimento;
+    }
+
+    public void setContatos(List<Contato> contatos) {
+        this.contatos = contatos;
+    }
 }

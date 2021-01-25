@@ -1,5 +1,7 @@
 package com.erc.apicadastro.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,7 +11,9 @@ public class Contato {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @JsonIgnore
     @ManyToOne
+    @JoinColumn(name = "pessoa_id")
     private Pessoa pessoa;
 
     @Column(nullable = false)
