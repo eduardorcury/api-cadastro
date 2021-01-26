@@ -12,7 +12,7 @@ public class ContatoDTO {
     private String nome;
 
     @NotBlank(message = "Telefone não pode estar em branco")
-    @Size(min = 4, max = 20, message = "Número de telefone inválido")
+    @Size(min = 4, max = 30, message = "Número de telefone inválido")
     private String telefone;
 
     @NotBlank(message = "E-mail não pode estar em branco")
@@ -37,5 +37,17 @@ public class ContatoDTO {
 
     public String getEmail() {
         return email;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

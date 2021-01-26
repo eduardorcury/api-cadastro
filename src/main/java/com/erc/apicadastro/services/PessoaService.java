@@ -2,6 +2,7 @@ package com.erc.apicadastro.services;
 
 import com.erc.apicadastro.domain.Pessoa;
 import com.erc.apicadastro.dto.PessoaDTO;
+import com.erc.apicadastro.exceptions.PessoaNaoEncontradaException;
 import com.erc.apicadastro.mapper.PessoaMapper;
 import com.erc.apicadastro.repositories.ContatoRepository;
 import com.erc.apicadastro.repositories.PessoaRepository;
@@ -29,7 +30,7 @@ public class PessoaService {
         if (pessoaOptional.isPresent()) {
             return mapper.toDTO(pessoaOptional.get());
         } else {
-            throw new RuntimeException("Cliente não encontrado");
+            throw new PessoaNaoEncontradaException("Cliente não encontrado");
         }
     }
 
@@ -54,7 +55,7 @@ public class PessoaService {
             pessoa.setId(pessoaId);
             return mapper.toDTO(pessoaRepository.save(pessoa));
         } else {
-            throw new RuntimeException("Cliente não encontrado");
+            throw new PessoaNaoEncontradaException("Cliente não encontrado");
         }
     }
 

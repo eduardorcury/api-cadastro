@@ -54,6 +54,22 @@ public class PessoaDTO {
         return contatos;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public void setNascimento(Date nascimento) {
+        this.nascimento = nascimento;
+    }
+
+    public void setContatos(List<ContatoDTO> contatos) {
+        this.contatos = contatos;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
