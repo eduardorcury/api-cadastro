@@ -1,15 +1,14 @@
 package com.erc.apicadastro.controllers;
 
 import com.erc.apicadastro.dto.PessoaDTO;
-import com.erc.apicadastro.mapper.PessoaMapper;
 import com.erc.apicadastro.services.PessoaService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/api/v1/pessoas")
@@ -32,6 +31,18 @@ public class PessoaController {
         PessoaDTO pessoa = pessoaService.encontrarPorId(pessoaId);
         //TODO checar id errado
         return new ResponseEntity<>(pessoa, HttpStatus.OK);
+    }
+
+    @GetMapping("/busca")
+    public ResponseEntity<Page<PessoaDTO>> buscaPaginada(
+            @RequestParam(value = "pag", defaultValue = "0") Integer numeroPagina,
+            @RequestParam(value = "qtd", defaultValue = "20") Integer quantidadePorPagina,
+            @RequestParam(value = "ordem", defaultValue = "nome") String campoOrdenacao,
+            @RequestParam(value = "dir", defaultValue = "ASC") String direcaoOrdenacao) {
+
+        Page<PessoaDTO> pagina = pessoaService.buscaPaginada(numeroPagina, quantidadePorPagina, campoOrdenacao, direcaoOrdenacao);
+        return new ResponseEntity<>(pagina, HttpStatus.OK);
+
     }
 
     @PostMapping

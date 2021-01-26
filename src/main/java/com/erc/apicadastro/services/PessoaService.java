@@ -6,6 +6,7 @@ import com.erc.apicadastro.exceptions.PessoaNaoEncontradaException;
 import com.erc.apicadastro.mapper.PessoaMapper;
 import com.erc.apicadastro.repositories.ContatoRepository;
 import com.erc.apicadastro.repositories.PessoaRepository;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,6 +40,25 @@ public class PessoaService {
                 .stream().map(mapper::toDTO)
                 .collect(Collectors.toList());
         return pessoas;
+    }
+
+    public Page<PessoaDTO> buscaPaginada(Integer numeroPagina,
+                                         Integer quantidadePorPagina,
+                                         String campoOrdenacao,
+                                         String direcaoOrdenacao) {
+
+        Pageable paginacao;
+
+        if (direcaoOrdenacao.toUpperCase().equals("DESC")) {
+            paginacao = PageRequest.of(numeroPagina, quantidadePorPagina, Sort.by(campoOrdenacao).descending());
+        } else {
+            paginacao = PageRequest.of(numeroPagina, quantidadePorPagina, Sort.by(campoOrdenacao).ascending());
+        }
+
+        Page<PessoaDTO> pagina = new PageImpl<>(pessoaRepository.findAll(paginacao)
+                .stream().map(mapper::toDTO).collect(Collectors.toList()));
+
+        return pagina;
     }
 
     public PessoaDTO salvar(PessoaDTO pessoa) {

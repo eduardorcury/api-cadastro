@@ -15,7 +15,7 @@ public class PessoaDTO {
     @NotBlank(message = "Nome não pode estar em branco")
     private String nome;
 
-    // TODO checar nulo
+    @NotNull(message = "Por favor, insira um número de CPF")
     @CPF(message = "Número de CPF inválido")
     private String cpf;
 
