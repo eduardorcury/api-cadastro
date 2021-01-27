@@ -20,12 +20,14 @@ public class PessoaController {
         this.pessoaService = pessoaService;
     }
 
+    @CrossOrigin
     @GetMapping
     public ResponseEntity<List<PessoaDTO>> listarTodos() {
         List<PessoaDTO> pessoas = pessoaService.encontrarTodos();
         return new ResponseEntity<>(pessoas, HttpStatus.OK);
     }
 
+    @CrossOrigin
     @GetMapping("/{id}")
     public ResponseEntity<PessoaDTO> encontrarPorId(@PathVariable(value = "id") Integer pessoaId) {
         PessoaDTO pessoa = pessoaService.encontrarPorId(pessoaId);
@@ -33,6 +35,7 @@ public class PessoaController {
         return new ResponseEntity<>(pessoa, HttpStatus.OK);
     }
 
+    @CrossOrigin
     @GetMapping("/busca")
     public ResponseEntity<Page<PessoaDTO>> buscaPaginada(
             @RequestParam(value = "pag", defaultValue = "0") Integer numeroPagina,
@@ -45,18 +48,21 @@ public class PessoaController {
 
     }
 
+    @CrossOrigin
     @PostMapping
     public ResponseEntity<String> salvar(@RequestBody @Valid PessoaDTO pessoaDTO) {
         pessoaService.salvar(pessoaDTO);
         return new ResponseEntity<>("Pessoa cadastrada com sucesso", HttpStatus.CREATED);
     }
 
+    @CrossOrigin
     @PutMapping("/{id}")
     public ResponseEntity<String> atualizar(@PathVariable(value = "id") Integer pessoaId, @RequestBody @Valid PessoaDTO pessoaDTO) {
         pessoaService.atualizar(pessoaId, pessoaDTO);
         return new ResponseEntity<>("Pessoa atualizada com sucesso", HttpStatus.OK);
     }
 
+    @CrossOrigin
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletar(@PathVariable(value = "id") Integer pessoaId) {
