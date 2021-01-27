@@ -31,7 +31,6 @@ public class PessoaController {
     @GetMapping("/{id}")
     public ResponseEntity<PessoaDTO> encontrarPorId(@PathVariable(value = "id") Integer pessoaId) {
         PessoaDTO pessoa = pessoaService.encontrarPorId(pessoaId);
-        //TODO checar id errado
         return new ResponseEntity<>(pessoa, HttpStatus.OK);
     }
 
@@ -50,16 +49,16 @@ public class PessoaController {
 
     @CrossOrigin
     @PostMapping
-    public ResponseEntity<String> salvar(@RequestBody @Valid PessoaDTO pessoaDTO) {
-        pessoaService.salvar(pessoaDTO);
-        return new ResponseEntity<>("Pessoa cadastrada com sucesso", HttpStatus.CREATED);
+    public ResponseEntity<PessoaDTO> salvar(@RequestBody @Valid PessoaDTO pessoaDTO) {
+        PessoaDTO pessoa = pessoaService.salvar(pessoaDTO);
+        return new ResponseEntity<>(pessoa, HttpStatus.CREATED);
     }
 
     @CrossOrigin
     @PutMapping("/{id}")
-    public ResponseEntity<String> atualizar(@PathVariable(value = "id") Integer pessoaId, @RequestBody @Valid PessoaDTO pessoaDTO) {
-        pessoaService.atualizar(pessoaId, pessoaDTO);
-        return new ResponseEntity<>("Pessoa atualizada com sucesso", HttpStatus.OK);
+    public ResponseEntity<PessoaDTO> atualizar(@PathVariable(value = "id") Integer pessoaId, @RequestBody @Valid PessoaDTO pessoaDTO) {
+        PessoaDTO pessoa = pessoaService.atualizar(pessoaId, pessoaDTO);
+        return new ResponseEntity<>(pessoa, HttpStatus.OK);
     }
 
     @CrossOrigin
