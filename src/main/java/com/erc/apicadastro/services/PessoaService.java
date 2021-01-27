@@ -80,7 +80,12 @@ public class PessoaService {
     }
 
     public void deletar(Integer id) {
-        pessoaRepository.deleteById(id);
+        Optional<Pessoa> pessoaOptional = pessoaRepository.findById(id);
+        if (pessoaOptional.isPresent()) {
+            pessoaRepository.deleteById(id);
+        } else {
+            throw new PessoaNaoEncontradaException("Cliente não encontrado");
+        }
     }
 
 }

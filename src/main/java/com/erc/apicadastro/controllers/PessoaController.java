@@ -52,7 +52,7 @@ public class PessoaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> atualizar(@PathVariable(value = "id") Integer pessoaId, @Valid PessoaDTO pessoaDTO) {
+    public ResponseEntity<String> atualizar(@PathVariable(value = "id") Integer pessoaId, @RequestBody @Valid PessoaDTO pessoaDTO) {
         pessoaService.atualizar(pessoaId, pessoaDTO);
         return new ResponseEntity<>("Pessoa atualizada com sucesso", HttpStatus.OK);
     }
