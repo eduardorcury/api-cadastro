@@ -63,6 +63,7 @@ public class PessoaService {
 
     public PessoaDTO salvar(PessoaDTO pessoa) {
         Pessoa pessoaSalva = pessoaRepository.save(mapper.toDomain(pessoa));
+        pessoaSalva.getContatos().forEach(contato -> contato.setPessoa(pessoaSalva));
         contatoRepository.saveAll(pessoaSalva.getContatos());
         return mapper.toDTO(pessoaSalva);
     }
@@ -73,7 +74,10 @@ public class PessoaService {
         if (pessoaOptional.isPresent()) {
             Pessoa pessoa = mapper.toDomain(pessoaAtualizada);
             pessoa.setId(pessoaId);
-            return mapper.toDTO(pessoaRepository.save(pessoa));
+            Pessoa pessoaSalva = pessoaRepository.save(pessoa);
+            pessoaSalva.getContatos().forEach(contato -> contato.setPessoa(pessoaSalva));
+            contatoRepository.saveAll(pessoaSalva.getContatos());
+            return mapper.toDTO(pessoaSalva);
         } else {
             throw new PessoaNaoEncontradaException("Cliente não encontrado");
         }

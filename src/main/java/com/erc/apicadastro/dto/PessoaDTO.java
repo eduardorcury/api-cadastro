@@ -1,11 +1,9 @@
 package com.erc.apicadastro.dto;
 
-import com.erc.apicadastro.domain.Contato;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -28,9 +26,8 @@ public class PessoaDTO {
     private List<ContatoDTO> contatos;
 
     public PessoaDTO(@NotBlank(message = "Nome não pode estar em branco") String nome,
-                     @CPF(message = "Número de CPF inválido") String cpf,
-                     @NotNull(message = "Por favor, insira uma data de nascimento")
-                     @Past(message = "Data de nascimento inválida") Date nascimento,
+                     @NotNull(message = "Por favor, insira um número de CPF") @CPF(message = "Número de CPF inválido") String cpf,
+                     @NotNull(message = "Por favor, insira uma data de nascimento") @Past(message = "Data de nascimento inválida") Date nascimento,
                      @Valid @NotEmpty(message = "Por favor, insira pelo menos um contato") List<ContatoDTO> contatos) {
         this.nome = nome;
         this.cpf = cpf;

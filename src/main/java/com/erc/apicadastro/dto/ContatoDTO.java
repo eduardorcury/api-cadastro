@@ -9,20 +9,20 @@ import java.util.Objects;
 
 public class ContatoDTO {
 
-    @NotBlank(message = "Nome não pode estar em branco")
+    @NotBlank(message = "Nome do contato não pode estar em branco")
     private String nome;
 
-    @NotBlank(message = "Telefone não pode estar em branco")
+    @NotBlank(message = "Telefone do contato não pode estar em branco")
     @Size(min = 4, max = 30, message = "Número de telefone inválido")
     private String telefone;
 
-    @NotBlank(message = "E-mail não pode estar em branco")
-    @Email(message = "Endereço de e-mail inválido")
+    @NotBlank(message = "E-mail do contato não pode estar em branco")
+    @Email(message = "Endereço de e-mail do contato inválido")
     private String email;
 
-    public ContatoDTO(@NotBlank(message = "Nome não pode estar em branco") String nome,
-                      @NotBlank(message = "Telefone não pode estar em branco") @Size(min = 4, max = 20, message = "Número de telefone inválido") String telefone,
-                      @NotBlank(message = "E-mail não pode estar em branco") @Email(message = "Endereço de e-mail inválido") String email) {
+    public ContatoDTO(@NotBlank(message = "Nome do contato não pode estar em branco") String nome,
+                      @NotBlank(message = "Telefone do contato não pode estar em branco") @Size(min = 4, max = 30, message = "Número de telefone inválido") String telefone,
+                      @NotBlank(message = "E-mail do contato não pode estar em branco") @Email(message = "Endereço de e-mail do contato inválido") String email) {
         this.nome = nome;
         this.telefone = telefone;
         this.email = email;
