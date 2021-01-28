@@ -20,14 +20,24 @@
 
 ## :mag_right: &nbsp;&nbsp; Como Usar
 
-A **API** está hospedada em: https://api-cadastro-eduardo.herokuapp.com
+A **API** está hospedada em: https://api-cadastro-eduardo.herokuapp.com. As APIs no free tier do Heroku demoram ~10 segundos para repsponder à primeira requisição.
 
-O **Frontend** está hospedado em: https://frontend-cadastro-ciczdubxt.vercel.app/
+O **Frontend** está hospedado em: https://frontend-cadastro.vercel.app.
 
 É possível ver o console do banco de dados h2 na URL: https://api-cadastro-eduardo.herokuapp.com/h2-console com os dados:
 - JDBC URL: jdbc:h2:mem:testdb
 - User Name: sa
 - Password
+
+Para listagem de usuários, acesse:
+```
+https://api-cadastro-eduardo.herokuapp.com/api/v1/pessoas
+```
+
+Para listagem de usuários paginada, use o seguinte modelo de URL:
+```
+https://api-cadastro-eduardo.herokuapp.com/api/v1/pessoas/busca?pag=0&qtd=5&ordem=nome&dir=DESC
+```
 
 Para testar o cadastro na API, mande uma requisição POST para https://api-cadastro-eduardo.herokuapp.com/api/v1/pessoas com um conteúdo de teste:
 ```json
